@@ -1,0 +1,18 @@
+language: python
+os:
+  - linux
+services:
+    - elasticsearch
+python:
+  - 2.7
+  - 3.3
+  - 3.4
+  - 3.5
+sudo: false
+env:
+  - TOXENV="py${PYTHON_VERSION//./}"
+install:
+  - pip install tox coveralls
+before_script:
+  - sleep 30
+script: tox
