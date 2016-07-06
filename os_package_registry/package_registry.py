@@ -6,7 +6,7 @@ from elasticsearch import Elasticsearch, NotFoundError
 
 class PackageRegistry(object):
 
-    PACKAGE_FIELDS = ['id', 'model', 'package', 'origin_url']
+    PACKAGE_FIELDS = ['id', 'model', 'package', 'origin_url', 'author', 'dataset']
     BATCH_SIZE = 100
     TABLE_NAME_PREFIX = "fdp__"
     Model = namedtuple('Model', PACKAGE_FIELDS)
@@ -43,6 +43,31 @@ class PackageRegistry(object):
         self.es.index(index='packages', doc_type='package', body=document, id=name)
         # Make sure that the data is saved
         self.es.indices.flush('packages')
+
+    def get_raw(self, name):
+        """
+        Get all data for a package in the registry
+        :returns tuple of:
+            name: name for the model
+            datapackage_url: origin URL for the datapackage which is the source for this model
+            datapackage: datapackage object from which this model was derived
+            dataset_name: Title of the dataset
+            author: Author of the dataset
+            model: model to save
+        """
+        try:
+            ret = self.es.get(index='packages', doc_type='package', id=name, _source=self.PACKAGE_FIELDS)
+            if ret['found']:
+                source = ret['_source']
+                return (name,
+                        source.get('origin_url'),
+                        source.get('package'),
+                        source.get('model'),
+                        source.get('dataset'),
+                        source.get('author'))
+            raise KeyError(name)
+        except NotFoundError:
+            raise KeyError(name)
 
     def list_models(self):
         """
