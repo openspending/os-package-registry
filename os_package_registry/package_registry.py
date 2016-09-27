@@ -6,7 +6,7 @@ from elasticsearch import Elasticsearch, NotFoundError
 
 class PackageRegistry(object):
 
-    PACKAGE_FIELDS = ['id', 'model', 'package', 'origin_url', 'author', 'dataset']
+    PACKAGE_FIELDS = ['id', 'model', 'package', 'origin_url', 'author', 'dataset', 'loading_status', 'loaded']
     BATCH_SIZE = 100
     TABLE_NAME_PREFIX = "fdp__"
     Model = namedtuple('Model', PACKAGE_FIELDS)
@@ -19,7 +19,8 @@ class PackageRegistry(object):
         else:
             self.es = es_instance
 
-    def save_model(self, name, datapackage_url, datapackage, model, dataset_name, author):
+    def save_model(self, name, datapackage_url, datapackage,
+                   model, dataset_name, author, status, loaded):
         """
         Save a model in the registry
         :param name: name for the model
@@ -28,6 +29,8 @@ class PackageRegistry(object):
         :param dataset_name: Title of the dataset
         :param author: Author of the dataset
         :param model: model to save
+        :param status: What's the status for loading
+        :param loaded: Was the package loaded successfully
         """
         document = {
             # Fields used by babbage API
@@ -38,7 +41,9 @@ class PackageRegistry(object):
 
             # Extra fields available in search
             'dataset': dataset_name,
-            'author': author
+            'author': author,
+            'loading_status': status,
+            'loaded': loaded
         }
         self.es.index(index='packages', doc_type='package', body=document, id=name)
         # Make sure that the data is saved
@@ -64,7 +69,9 @@ class PackageRegistry(object):
                         source.get('package'),
                         source.get('model'),
                         source.get('dataset'),
-                        source.get('author'))
+                        source.get('author'),
+                        source.get('loading_status'),
+                        source.get('loaded', True))
             raise KeyError(name)
         except NotFoundError:
             raise KeyError(name)
@@ -80,7 +87,7 @@ class PackageRegistry(object):
             while from_ < count:
                 ret = self.es.search(index='packages', doc_type='package', q='*',
                                      size=self.BATCH_SIZE, from_=from_, _source=self.PACKAGE_FIELDS)
-                for hit in ret.get('hits',{}).get('hits',[]):
+                for hit in ret.get('hits',{}).get('hits', []):
                     yield hit['_source']['id']
                 from_ += self.BATCH_SIZE
         except NotFoundError:

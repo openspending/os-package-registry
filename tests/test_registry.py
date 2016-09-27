@@ -64,7 +64,7 @@ class TestPackageRegistry(object):
             package_registry.get_raw('bla')
 
     def test_get_raw(self, package_registry):
-        name, datapackage_url, datapackage, model, dataset_name, author = \
+        name, datapackage_url, datapackage, model, dataset_name, author, status, loaded = \
             package_registry.get_raw(MODEL_NAME)
         assert(name == MODEL_NAME)
         assert(datapackage_url == SAMPLE_DATA['origin_url'])
@@ -72,3 +72,5 @@ class TestPackageRegistry(object):
         assert(model == SAMPLE_DATA['model'])
         assert(dataset_name == SAMPLE_DATA['dataset'])
         assert(author == SAMPLE_DATA['author'])
+        assert(status == SAMPLE_DATA['loading_status'])
+        assert(loaded == SAMPLE_DATA['loaded'])
