@@ -11,6 +11,45 @@ class PackageRegistry(object):
     TABLE_NAME_PREFIX = "fdp__"
     Model = namedtuple('Model', PACKAGE_FIELDS)
 
+    INDEX_NAME = 'packages'
+    DOC_TYPE = 'package'
+
+    MAPPING = {
+        'id': {
+            "type": "string",
+            "index": "not_analyzed",
+        },
+        'model': {
+            "type": "object",
+            "index": "no",
+        },
+        'package': {
+            'type': 'object',
+            'properties': {
+                'author': {
+                    "type": "string",
+                    "index": "not_analyzed",
+                },
+                'owner': {
+                    "type": "string",
+                    "index": "not_analyzed",
+                },
+                'cityCode': {
+                    "type": "string",
+                    "index": "not_analyzed",
+                },
+            }
+        },
+        'origin_url': {
+            "type": "string",
+            "index": "not_analyzed",
+        },
+        'dataset': {
+            "type": "string",
+            "index": "not_analyzed",
+        }
+    }
+
     def __init__(self, es_connection_string=None, es_instance=None):
         if es_instance is None:
             logging.info('Attempting to connect to ES: {0}'.format(es_connection_string))
@@ -18,6 +57,14 @@ class PackageRegistry(object):
             logging.info('Successful connection to ES')
         else:
             self.es = es_instance
+
+        if not self.es.indices.exists(self.INDEX_NAME):
+            self.es.indices.create(self.INDEX_NAME)
+        mapping = {self.DOC_TYPE: {'properties': self.MAPPING}}
+        self.es.indices.put_mapping(doc_type=self.DOC_TYPE,
+                                    index=self.INDEX_NAME,
+                                    body=mapping,
+                                    ignore_conflicts=True)
 
     def save_model(self, name, datapackage_url, datapackage,
                    model, dataset_name, author, status, loaded):
@@ -45,9 +92,9 @@ class PackageRegistry(object):
             'loading_status': status,
             'loaded': loaded
         }
-        self.es.index(index='packages', doc_type='package', body=document, id=name)
+        self.es.index(index=self.INDEX_NAME, doc_type=self.DOC_TYPE, body=document, id=name)
         # Make sure that the data is saved
-        self.es.indices.flush('packages')
+        self.es.indices.flush(self.INDEX_NAME)
 
     def get_raw(self, name):
         """
@@ -61,7 +108,7 @@ class PackageRegistry(object):
             model: model to save
         """
         try:
-            ret = self.es.get(index='packages', doc_type='package', id=name, _source=self.PACKAGE_FIELDS)
+            ret = self.es.get(index=self.INDEX_NAME, doc_type=self.DOC_TYPE, id=name, _source=self.PACKAGE_FIELDS)
             if ret['found']:
                 source = ret['_source']
                 return (name,
@@ -82,10 +129,10 @@ class PackageRegistry(object):
         :return: A generator yielding strings (one per model)
         """
         try:
-            count = self.es.count(index='packages', doc_type='package', q='*')['count']
+            count = self.es.count(index=self.INDEX_NAME, doc_type=self.DOC_TYPE, q='*')['count']
             from_ = 0
             while from_ < count:
-                ret = self.es.search(index='packages', doc_type='package', q='*',
+                ret = self.es.search(index='packages', doc_type=self.DOC_TYPE, q='*',
                                      size=self.BATCH_SIZE, from_=from_, _source=self.PACKAGE_FIELDS)
                 for hit in ret.get('hits',{}).get('hits', []):
                     yield hit['_source']['id']
@@ -99,7 +146,7 @@ class PackageRegistry(object):
         :param name: model name to test
         :return: True if yes
         """
-        return self.es.exists(index='packages', doc_type='package', id=name)
+        return self.es.exists(index=self.INDEX_NAME, doc_type=self.DOC_TYPE, id=name)
 
     def get_model(self, name):
         """
@@ -109,7 +156,7 @@ class PackageRegistry(object):
         :return: Python object representing the model
         """
         try:
-            ret = self.es.get(index='packages', doc_type='package', id=name, _source=self.PACKAGE_FIELDS)
+            ret = self.es.get(index=self.INDEX_NAME, doc_type=self.DOC_TYPE, id=name, _source=self.PACKAGE_FIELDS)
             if ret['found']:
                 return ret['_source']['model']
             raise KeyError(name)
@@ -124,7 +171,7 @@ class PackageRegistry(object):
         :return: Python object representing the package
         """
         try:
-            rec = self.es.get(index='packages', doc_type='package', id=name, _source=self.PACKAGE_FIELDS)
+            rec = self.es.get(index=self.INDEX_NAME, doc_type=self.DOC_TYPE, id=name, _source=self.PACKAGE_FIELDS)
             if rec['found']:
                 ret = rec['_source']['package']
                 ret['__origin_url'] = rec['_source']['origin_url']
