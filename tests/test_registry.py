@@ -22,9 +22,10 @@ def package_registry():
         es.indices.delete(index='papapa')
     except NotFoundError:
         pass
+    pr = os_package_registry.PackageRegistry(es_connection_string=LOCAL_ELASTICSEARCH, index_name='papapa')
     es.index(index='papapa', doc_type='package', body=SAMPLE_DATA, id=MODEL_NAME)
     es.indices.flush('papapa')
-    return os_package_registry.PackageRegistry(es_connection_string=LOCAL_ELASTICSEARCH, index_name='papapa')
+    return pr
 
 
 class TestPackageRegistry(object):

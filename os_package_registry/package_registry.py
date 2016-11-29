@@ -59,9 +59,9 @@ class PackageRegistry(object):
         else:
             self.es = es_instance
 
-        if not self.es.indices.exists(self.INDEX_NAME):
-            self.es.indices.create(self.INDEX_NAME)
         self.index_name = index_name
+        if not self.es.indices.exists(self.index_name):
+            self.es.indices.create(self.index_name)
         mapping = {self.DOC_TYPE: {'properties': self.MAPPING}}
         self.es.indices.put_mapping(doc_type=self.DOC_TYPE,
                                     index=self.index_name,
