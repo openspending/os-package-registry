@@ -22,6 +22,7 @@ class PackageRegistry(object):
         'model': {
             "type": "object",
             "index": "no",
+            "enabled": False
         },
         'package': {
             'type': 'object',
@@ -38,6 +39,15 @@ class PackageRegistry(object):
                     "type": "string",
                     "index": "not_analyzed",
                 },
+                'resources': {
+                    "type": "object",
+                    "properties": {
+                        "schema": {
+                            "type": "object",
+                            "enabled": False
+                        }
+                    }
+                }
             }
         },
         'origin_url': {
