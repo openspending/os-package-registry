@@ -47,7 +47,12 @@ class PackageRegistry(object):
                             "enabled": False
                         }
                     }
-                }
+                },
+                'model': {
+                    "type": "object",
+                    "index": "no",
+                    "enabled": False
+                },
             }
         },
         'origin_url': {
