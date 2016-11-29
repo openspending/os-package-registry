@@ -19,12 +19,12 @@ def package_registry():
     LOCAL_ELASTICSEARCH = 'localhost:9200'
     es = Elasticsearch(hosts=[LOCAL_ELASTICSEARCH])
     try:
-        es.indices.delete(index='packages')
+        es.indices.delete(index='papapa')
     except NotFoundError:
         pass
-    es.index(index='packages', doc_type='package', body=SAMPLE_DATA, id=MODEL_NAME)
-    es.indices.flush('packages')
-    return os_package_registry.PackageRegistry(es_connection_string=LOCAL_ELASTICSEARCH)
+    es.index(index='papapa', doc_type='package', body=SAMPLE_DATA, id=MODEL_NAME)
+    es.indices.flush('papapa')
+    return os_package_registry.PackageRegistry(es_connection_string=LOCAL_ELASTICSEARCH, index_name='papapa')
 
 
 class TestPackageRegistry(object):
