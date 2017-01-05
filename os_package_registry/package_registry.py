@@ -149,7 +149,7 @@ class PackageRegistry(object):
             count = self.es.count(index=self.index_name, doc_type=self.DOC_TYPE, q='*')['count']
             from_ = 0
             while from_ < count:
-                ret = self.es.search(index='packages', doc_type=self.DOC_TYPE, q='*',
+                ret = self.es.search(index=self.index_name, doc_type=self.DOC_TYPE, q='*',
                                      size=self.BATCH_SIZE, from_=from_, _source=self.PACKAGE_FIELDS)
                 for hit in ret.get('hits',{}).get('hits', []):
                     yield hit['_source']['id']
