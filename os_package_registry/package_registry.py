@@ -1,4 +1,5 @@
 import logging
+import time
 from collections import namedtuple
 
 from elasticsearch import Elasticsearch, NotFoundError
@@ -107,11 +108,22 @@ class PackageRegistry(object):
             'dataset': dataset_name,
             'author': author,
             'loading_status': status,
-            'loaded': loaded
+            'loaded': loaded,
+            'last_update': time.time()
         }
         self.es.index(index=self.index_name, doc_type=self.DOC_TYPE, body=document, id=name)
         # Make sure that the data is saved
         self.es.indices.flush(self.index_name)
+
+    def delete_model(self, name):
+        """
+        Delete a model from the registry
+        :param name: name for the model
+        """
+        ret = self.es.delete(index=self.index_name, doc_type=self.DOC_TYPE, id=name)
+        # Make sure that the data is saved
+        self.es.indices.flush(self.index_name)
+        return ret['found']
 
     def get_raw(self, name):
         """

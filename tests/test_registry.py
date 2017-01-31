@@ -41,6 +41,18 @@ class TestPackageRegistry(object):
         assert(len(models) == 1, 'no dataset was loaded')
         assert(models[0] == MODEL_NAME, 'dataset with wrong name')
 
+    def test_delete(self, package_registry):
+        """
+        Simple loading of one valid fdp into DB and testing correct CM values
+        """
+        models = list(package_registry.list_models())
+        assert(len(models) == 1, 'no dataset was loaded')
+        assert(models[0] == MODEL_NAME, 'dataset with wrong name')
+        ret = package_registry.delete_model(MODEL_NAME)
+        models = list(package_registry.list_models())
+        assert(len(models) == 0, 'dataset was not deleted')
+        assert ret == True
+
     def test_get_cube_model_correct_values(self, package_registry):
         model = package_registry.get_model(MODEL_NAME)
         expected = MODEL_NAME.replace('-', '_').replace(':', '__').replace('@', '_').replace('.', '_')
