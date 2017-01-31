@@ -120,7 +120,10 @@ class PackageRegistry(object):
         Delete a model from the registry
         :param name: name for the model
         """
-        ret = self.es.delete(index=self.index_name, doc_type=self.DOC_TYPE, id=name)
+        try:
+            ret = self.es.delete(index=self.index_name, doc_type=self.DOC_TYPE, id=name)
+        except NotFoundError:
+            return False
         # Make sure that the data is saved
         self.es.indices.flush(self.index_name)
         return ret['found']
