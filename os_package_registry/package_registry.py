@@ -81,8 +81,7 @@ class PackageRegistry(object):
         mapping = {self.DOC_TYPE: {'properties': self.MAPPING}}
         self.es.indices.put_mapping(doc_type=self.DOC_TYPE,
                                     index=self.index_name,
-                                    body=mapping,
-                                    ignore_conflicts=True)
+                                    body=mapping)
 
     def save_model(self, name, datapackage_url, datapackage,
                    model, dataset_name, author, status, loaded):
@@ -176,28 +175,35 @@ class PackageRegistry(object):
         """
         Get some stats on the packages in the registry
         """
-        num_packages = 0
-        countries = set()
-        num_records = 0
-        #TODO: Find a way to do this with one ES query
         try:
-            count = self.es.count(index=self.index_name, doc_type=self.DOC_TYPE, q='*')['count']
-            from_ = 0
-            while from_ < count:
-                ret = self.es.search(index=self.index_name, doc_type=self.DOC_TYPE, q='*',
-                                     size=self.BATCH_SIZE, from_=from_, _source=self.PACKAGE_FIELDS)
-                for hit in ret.get('hits',{}).get('hits', []):
-                    num_packages += 1
-                    package = hit['_source']['package']
-                    num_records += package.get('count_of_rows', 0)
-                    if 'countryCode' in package:
-                        countries.add(package['countryCode'])
-                from_ += self.BATCH_SIZE
+            query = {
+                'size': 0,  # We only care about the aggregations, so don't return the hits
+                'aggs': {
+                    'num_packages': {
+                        'value_count': {
+                            'field': 'id',
+                        },
+                    },
+                    'num_records': {
+                        'sum': {
+                            'field': 'count_of_rows',
+                        },
+                    },
+                    'num_countries': {
+                        'cardinality': {
+                            'field': 'countryCode',
+                        },
+                    },
+                },
+            }
+            aggregations = self.es.search(index=self.index_name, body=query)['aggregations']
+
+            return {
+                key: int(value['value'])
+                for key, value in aggregations.items()
+            }
         except NotFoundError:
             return {}
-        return dict(
-           num_packages=num_packages, num_countries=len(countries), num_records=num_records
-        )
 
     def has_model(self, name):
         """
