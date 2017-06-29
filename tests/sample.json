@@ -1,1 +1,656 @@
-["example@example.com:boost-moldova", {"author": "Testy McTest", "origin_url": "/Users/adam/code/os/openspending/repos/babbage.fiscal-data-package/tests/sample-data/md/datapackage.json", "package": {"author": "Testy McTest <test@not.shown>", "name": "boost-moldova", "profiles": {"fiscal": "*", "tabular": "*"}, "fiscalPeriod": {"end": "2014-12-31", "start": "2014-01-01"}, "model": {"measures": {"adjusted": {"phase": "adjusted", "source": "adjusted", "direction": "expenditure", "currency": "MDL"}, "executed": {"phase": "executed", "source": "executed", "direction": "expenditure", "currency": "MDL"}, "approved": {"phase": "approved", "source": "approved", "direction": "expenditure", "currency": "MDL"}}, "dimensions": {"economic-classification": {"dimensionType": "classification", "attributes": {"econ1_code": {"source": "econ1 (code)"}, "econ1_label": {"source": "econ1 (label)", "labelfor": "econ1_code"}, "econ2_label": {"source": "econ2 (label)", "labelfor": "econ2_code"}, "econ2_code": {"parent": "econ1_code", "source": "econ2 (code)"}}, "classificationType": "economic", "primaryKey": ["econ1_code", "econ2_code"]}, "administrative-classification": {"dimensionType": "classification", "attributes": {"admin4_label": {"source": "admin4 (label)", "labelfor": "admin4_code"}, "admin6_label": {"source": "admin6 (label)", "labelfor": "admin6_code"}, "admin3_code": {"parent": "admin2_code", "source": "admin3 (code)"}, "admin5_code": {"parent": "admin4_code", "source": "admin5 (code)"}, "admin4_code": {"parent": "admin3_code", "source": "admin4 (code)"}, "admin6_code": {"parent": "admin5_code", "source": "admin6 (code)"}, "admin3_label": {"source": "admin3 (label)", "labelfor": "admin3_code"}, "admin2_code": {"parent": "admin1", "source": "admin2!"}, "admin2_label": {"source": "admin2*", "labelfor": "admin2_code"}, "admin1": {"source": "admin1"}, "admin5_label": {"source": "admin5 (label)", "labelfor": "admin5_code"}}, "classificationType": "administrative", "primaryKey": ["admin1", "admin2_code", "admin3_code", "admin4_code", "admin5_code", "admin6_code"]}, "date": {"dimensionType": "datetime", "attributes": {"year": {"source": "year"}}, "primaryKey": "year"}, "functional-classification": {"dimensionType": "classification", "attributes": {"func2_label": {"source": "func2 (label)", "labelfor": "func2_code"}, "func1_code": {"source": "func1 (code)"}, "func2_code": {"parent": "func1_code", "source": "func2 (code)"}, "func1_label": {"source": "func1 (label)", "labelfor": "func1_code"}}, "classificationType": "functional", "primaryKey": ["func1_code", "func2_code"]}, "other": {"dimensionType": "other", "attributes": {"exp_type": {"source": "exp_type"}, "transfer": {"source": "transfer"}, "fin_source": {"source": "fin_source"}}, "primaryKey": ["fin_source", "exp_type", "transfer"]}}}, "description": "", "license": "PDDL-1.0", "countryCode": "MD", "version": "0.1.0", "resources": [{"name": "boost-moldova-2014", "bytes": 69163271, "mediatype": "text/csv", "schema": {"fields": [{"type": "integer", "name": "year", "description": ""}, {"type": "string", "name": "admin1", "description": ""}, {"type": "string", "name": "admin2!", "description": ""}, {"type": "string", "name": "admin2*", "description": ""}, {"type": "string", "name": "admin3 (code)", "description": ""}, {"type": "string", "name": "admin3 (label)", "description": ""}, {"type": "string", "name": "admin4 (code)", "constraints": {"required": false}, "description": ""}, {"type": "string", "name": "admin4 (label)", "constraints": {"required": false}, "description": ""}, {"type": "string", "name": "admin5 (code)", "constraints": {"required": false}, "description": ""}, {"type": "string", "name": "admin5 (label)", "constraints": {"required": false}, "description": ""}, {"type": "string", "name": "admin6 (code)", "description": ""}, {"type": "string", "name": "admin6 (label)", "description": ""}, {"type": "string", "name": "func1 (code)", "description": ""}, {"type": "string", "name": "func1 (label)", "description": ""}, {"type": "string", "name": "func2 (code)", "description": ""}, {"type": "string", "name": "func2 (label)", "description": ""}, {"type": "string", "name": "econ1 (code)", "description": ""}, {"type": "string", "name": "econ1 (label)", "description": ""}, {"type": "string", "name": "econ2 (code)", "description": ""}, {"type": "string", "name": "econ2 (label)", "description": ""}, {"type": "string", "name": "fin_source", "description": ""}, {"type": "string", "name": "exp_type", "description": ""}, {"type": "string", "name": "transfer", "description": ""}, {"type": "number", "name": "approved", "description": ""}, {"type": "number", "name": "adjusted", "description": ""}, {"type": "number", "name": "executed", "description": ""}]}, "format": "csv", "path": "data/boost-moldova-2014.csv"}], "owner": "example@example.com", "title": "Moldova BOOST", "granularity": "aggregated"}, "dataset": "boost-moldova", "model": {"measures": {"adjusted": {"label": "adjusted", "currency": "MDL", "orig_measure": "adjusted", "column": "adjusted"}, "executed": {"label": "executed", "currency": "MDL", "orig_measure": "executed", "column": "executed"}, "approved": {"label": "approved", "currency": "MDL", "orig_measure": "approved", "column": "approved"}}, "dimensions": {"economic_classification_econ1": {"label": "econ1 (code)", "label_attribute": "econ1_label", "orig_dimension": "economic-classification", "attributes": {"econ1_code": {"label": "econ1 (code)", "datatype": "string", "orig_attribute": "econ1_code", "column": "econ1_code"}, "econ1_label": {"label": "econ1 (label)", "datatype": "string", "orig_attribute": "econ1_label", "column": "econ1_label"}}, "key_attribute": "econ1_code"}, "administrative_classification_2": {"label": "admin1", "orig_dimension": "administrative-classification", "attributes": {"admin1": {"label": "admin1", "datatype": "string", "orig_attribute": "admin1", "column": "admin1"}}, "key_attribute": "admin1"}, "functional_classification_code_2": {"label": "func2 (code)", "label_attribute": "func2_label", "orig_dimension": "functional-classification", "attributes": {"func2_label": {"label": "func2 (label)", "datatype": "string", "orig_attribute": "func2_label", "column": "func2_label"}, "func2_code": {"label": "func2 (code)", "datatype": "string", "orig_attribute": "func2_code", "column": "func2_code"}}, "key_attribute": "func2_code"}, "administrative_classification_3": {"label": "admin2!", "label_attribute": "admin2_label", "orig_dimension": "administrative-classification", "attributes": {"admin2_code": {"label": "admin2!", "datatype": "string", "orig_attribute": "admin2_code", "column": "admin2"}, "admin2_label": {"label": "admin2*", "datatype": "string", "orig_attribute": "admin2_label", "column": "admin2_2"}}, "key_attribute": "admin2_code"}, "administrative_classification_4": {"label": "admin3 (code)", "label_attribute": "admin3_label", "orig_dimension": "administrative-classification", "attributes": {"admin3_code": {"label": "admin3 (code)", "datatype": "string", "orig_attribute": "admin3_code", "column": "admin3_code"}, "admin3_label": {"label": "admin3 (label)", "datatype": "string", "orig_attribute": "admin3_label", "column": "admin3_label"}}, "key_attribute": "admin3_code"}, "economic_classification_econ2": {"label": "econ2 (code)", "label_attribute": "econ2_label", "orig_dimension": "economic-classification", "attributes": {"econ2_code": {"label": "econ2 (code)", "datatype": "string", "orig_attribute": "econ2_code", "column": "econ2_code"}, "econ2_label": {"label": "econ2 (label)", "datatype": "string", "orig_attribute": "econ2_label", "column": "econ2_label"}}, "key_attribute": "econ2_code"}, "administrative_classification_5": {"label": "admin4 (code)", "label_attribute": "admin4_label", "orig_dimension": "administrative-classification", "attributes": {"admin4_label": {"label": "admin4 (label)", "datatype": "string", "orig_attribute": "admin4_label", "column": "admin4_label"}, "admin4_code": {"label": "admin4 (code)", "datatype": "string", "orig_attribute": "admin4_code", "column": "admin4_code"}}, "key_attribute": "admin4_code"}, "administrative_classification_7": {"label": "admin6 (code)", "label_attribute": "admin6_label", "orig_dimension": "administrative-classification", "attributes": {"admin6_label": {"label": "admin6 (label)", "datatype": "string", "orig_attribute": "admin6_label", "column": "admin6_label"}, "admin6_code": {"label": "admin6 (code)", "datatype": "string", "orig_attribute": "admin6_code", "column": "admin6_code"}}, "key_attribute": "admin6_code"}, "functional_classification_code": {"label": "func1 (code)", "label_attribute": "func1_label", "orig_dimension": "functional-classification", "attributes": {"func1_code": {"label": "func1 (code)", "datatype": "string", "orig_attribute": "func1_code", "column": "func1_code"}, "func1_label": {"label": "func1 (label)", "datatype": "string", "orig_attribute": "func1_label", "column": "func1_label"}}, "key_attribute": "func1_code"}, "other_transfer": {"label": "transfer", "orig_dimension": "other", "attributes": {"transfer": {"label": "transfer", "datatype": "string", "orig_attribute": "transfer", "column": "transfer"}}, "key_attribute": "transfer"}, "administrative_classification_6": {"label": "admin5 (code)", "label_attribute": "admin5_label", "orig_dimension": "administrative-classification", "attributes": {"admin5_code": {"label": "admin5 (code)", "datatype": "string", "orig_attribute": "admin5_code", "column": "admin5_code"}, "admin5_label": {"label": "admin5 (label)", "datatype": "string", "orig_attribute": "admin5_label", "column": "admin5_label"}}, "key_attribute": "admin5_code"}, "date_2": {"label": "year", "orig_dimension": "date", "attributes": {"year": {"label": "year", "datatype": "integer", "orig_attribute": "year", "column": "year"}}, "key_attribute": "year"}, "other_fin_source": {"label": "fin_source", "orig_dimension": "other", "attributes": {"fin_source": {"label": "fin_source", "datatype": "string", "orig_attribute": "fin_source", "column": "fin_source"}}, "key_attribute": "fin_source"}, "other_exp_type": {"label": "exp_type", "orig_dimension": "other", "attributes": {"exp_type": {"label": "exp_type", "datatype": "string", "orig_attribute": "exp_type", "column": "exp_type"}}, "key_attribute": "exp_type"}}, "fact_table": "fdp__example_example_com__boost_moldova", "hierarchies": {"date": {"label": "Date", "levels": ["date_2"]}, "economic_classification": {"label": "Economic Classification", "levels": ["economic_classification_econ1", "economic_classification_econ2"]}, "functional_classification": {"label": "Functional Classification", "levels": ["functional_classification_code", "functional_classification_code_2"]}, "administrative_classification": {"label": "Administrative Classification", "levels": ["administrative_classification_2", "administrative_classification_3", "administrative_classification_4", "administrative_classification_5", "administrative_classification_6", "administrative_classification_7"]}, "other": {"label": "Other", "levels": ["other_fin_source", "other_exp_type", "other_transfer"]}}}, "id": "example@example.com:boost-moldova", "loading_status": "done", "loaded": true}]
+[
+    "example@example.com:boost-moldova",
+    {
+        "author": "Testy McTest",
+        "origin_url": "/Users/adam/code/os/openspending/repos/babbage.fiscal-data-package/tests/sample-data/md/datapackage.json",
+        "package": {
+            "author": "Testy McTest <test@not.shown>",
+            "name": "boost-moldova",
+            "profiles": {
+                "fiscal": "*",
+                "tabular": "*"
+            },
+            "fiscalPeriod": {
+                "end": "2014-12-31",
+                "start": "2014-01-01"
+            },
+            "model": {
+                "measures": {
+                    "adjusted": {
+                        "phase": "adjusted",
+                        "source": "adjusted",
+                        "direction": "expenditure",
+                        "currency": "MDL"
+                    },
+                    "executed": {
+                        "phase": "executed",
+                        "source": "executed",
+                        "direction": "expenditure",
+                        "currency": "MDL"
+                    },
+                    "approved": {
+                        "phase": "approved",
+                        "source": "approved",
+                        "direction": "expenditure",
+                        "currency": "MDL"
+                    }
+                },
+                "dimensions": {
+                    "economic-classification": {
+                        "dimensionType": "classification",
+                        "attributes": {
+                            "econ1_code": {
+                                "source": "econ1 (code)"
+                            },
+                            "econ1_label": {
+                                "source": "econ1 (label)",
+                                "labelfor": "econ1_code"
+                            },
+                            "econ2_label": {
+                                "source": "econ2 (label)",
+                                "labelfor": "econ2_code"
+                            },
+                            "econ2_code": {
+                                "parent": "econ1_code",
+                                "source": "econ2 (code)"
+                            }
+                        },
+                        "classificationType": "economic",
+                        "primaryKey": [
+                            "econ1_code",
+                            "econ2_code"
+                        ]
+                    },
+                    "administrative-classification": {
+                        "dimensionType": "classification",
+                        "attributes": {
+                            "admin4_label": {
+                                "source": "admin4 (label)",
+                                "labelfor": "admin4_code"
+                            },
+                            "admin6_label": {
+                                "source": "admin6 (label)",
+                                "labelfor": "admin6_code"
+                            },
+                            "admin3_code": {
+                                "parent": "admin2_code",
+                                "source": "admin3 (code)"
+                            },
+                            "admin5_code": {
+                                "parent": "admin4_code",
+                                "source": "admin5 (code)"
+                            },
+                            "admin4_code": {
+                                "parent": "admin3_code",
+                                "source": "admin4 (code)"
+                            },
+                            "admin6_code": {
+                                "parent": "admin5_code",
+                                "source": "admin6 (code)"
+                            },
+                            "admin3_label": {
+                                "source": "admin3 (label)",
+                                "labelfor": "admin3_code"
+                            },
+                            "admin2_code": {
+                                "parent": "admin1",
+                                "source": "admin2!"
+                            },
+                            "admin2_label": {
+                                "source": "admin2*",
+                                "labelfor": "admin2_code"
+                            },
+                            "admin1": {
+                                "source": "admin1"
+                            },
+                            "admin5_label": {
+                                "source": "admin5 (label)",
+                                "labelfor": "admin5_code"
+                            }
+                        },
+                        "classificationType": "administrative",
+                        "primaryKey": [
+                            "admin1",
+                            "admin2_code",
+                            "admin3_code",
+                            "admin4_code",
+                            "admin5_code",
+                            "admin6_code"
+                        ]
+                    },
+                    "date": {
+                        "dimensionType": "datetime",
+                        "attributes": {
+                            "year": {
+                                "source": "year"
+                            }
+                        },
+                        "primaryKey": "year"
+                    },
+                    "functional-classification": {
+                        "dimensionType": "classification",
+                        "attributes": {
+                            "func2_label": {
+                                "source": "func2 (label)",
+                                "labelfor": "func2_code"
+                            },
+                            "func1_code": {
+                                "source": "func1 (code)"
+                            },
+                            "func2_code": {
+                                "parent": "func1_code",
+                                "source": "func2 (code)"
+                            },
+                            "func1_label": {
+                                "source": "func1 (label)",
+                                "labelfor": "func1_code"
+                            }
+                        },
+                        "classificationType": "functional",
+                        "primaryKey": [
+                            "func1_code",
+                            "func2_code"
+                        ]
+                    },
+                    "other": {
+                        "dimensionType": "other",
+                        "attributes": {
+                            "exp_type": {
+                                "source": "exp_type"
+                            },
+                            "transfer": {
+                                "source": "transfer"
+                            },
+                            "fin_source": {
+                                "source": "fin_source"
+                            }
+                        },
+                        "primaryKey": [
+                            "fin_source",
+                            "exp_type",
+                            "transfer"
+                        ]
+                    }
+                }
+            },
+            "description": "",
+            "license": "PDDL-1.0",
+            "countryCode": "MD",
+            "count_of_rows": 1234567,
+            "version": "0.1.0",
+            "resources": [
+                {
+                    "name": "boost-moldova-2014",
+                    "bytes": 69163271,
+                    "mediatype": "text/csv",
+                    "schema": {
+                        "fields": [
+                            {
+                                "type": "integer",
+                                "name": "year",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "admin1",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "admin2!",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "admin2*",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "admin3 (code)",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "admin3 (label)",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "admin4 (code)",
+                                "constraints": {
+                                    "required": false
+                                },
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "admin4 (label)",
+                                "constraints": {
+                                    "required": false
+                                },
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "admin5 (code)",
+                                "constraints": {
+                                    "required": false
+                                },
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "admin5 (label)",
+                                "constraints": {
+                                    "required": false
+                                },
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "admin6 (code)",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "admin6 (label)",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "func1 (code)",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "func1 (label)",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "func2 (code)",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "func2 (label)",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "econ1 (code)",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "econ1 (label)",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "econ2 (code)",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "econ2 (label)",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "fin_source",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "exp_type",
+                                "description": ""
+                            },
+                            {
+                                "type": "string",
+                                "name": "transfer",
+                                "description": ""
+                            },
+                            {
+                                "type": "number",
+                                "name": "approved",
+                                "description": ""
+                            },
+                            {
+                                "type": "number",
+                                "name": "adjusted",
+                                "description": ""
+                            },
+                            {
+                                "type": "number",
+                                "name": "executed",
+                                "description": ""
+                            }
+                        ]
+                    },
+                    "format": "csv",
+                    "path": "data/boost-moldova-2014.csv"
+                }
+            ],
+            "owner": "example@example.com",
+            "title": "Moldova BOOST",
+            "granularity": "aggregated"
+        },
+        "dataset": "boost-moldova",
+        "model": {
+            "measures": {
+                "adjusted": {
+                    "label": "adjusted",
+                    "currency": "MDL",
+                    "orig_measure": "adjusted",
+                    "column": "adjusted"
+                },
+                "executed": {
+                    "label": "executed",
+                    "currency": "MDL",
+                    "orig_measure": "executed",
+                    "column": "executed"
+                },
+                "approved": {
+                    "label": "approved",
+                    "currency": "MDL",
+                    "orig_measure": "approved",
+                    "column": "approved"
+                }
+            },
+            "dimensions": {
+                "economic_classification_econ1": {
+                    "label": "econ1 (code)",
+                    "label_attribute": "econ1_label",
+                    "orig_dimension": "economic-classification",
+                    "attributes": {
+                        "econ1_code": {
+                            "label": "econ1 (code)",
+                            "datatype": "string",
+                            "orig_attribute": "econ1_code",
+                            "column": "econ1_code"
+                        },
+                        "econ1_label": {
+                            "label": "econ1 (label)",
+                            "datatype": "string",
+                            "orig_attribute": "econ1_label",
+                            "column": "econ1_label"
+                        }
+                    },
+                    "key_attribute": "econ1_code"
+                },
+                "administrative_classification_2": {
+                    "label": "admin1",
+                    "orig_dimension": "administrative-classification",
+                    "attributes": {
+                        "admin1": {
+                            "label": "admin1",
+                            "datatype": "string",
+                            "orig_attribute": "admin1",
+                            "column": "admin1"
+                        }
+                    },
+                    "key_attribute": "admin1"
+                },
+                "functional_classification_code_2": {
+                    "label": "func2 (code)",
+                    "label_attribute": "func2_label",
+                    "orig_dimension": "functional-classification",
+                    "attributes": {
+                        "func2_label": {
+                            "label": "func2 (label)",
+                            "datatype": "string",
+                            "orig_attribute": "func2_label",
+                            "column": "func2_label"
+                        },
+                        "func2_code": {
+                            "label": "func2 (code)",
+                            "datatype": "string",
+                            "orig_attribute": "func2_code",
+                            "column": "func2_code"
+                        }
+                    },
+                    "key_attribute": "func2_code"
+                },
+                "administrative_classification_3": {
+                    "label": "admin2!",
+                    "label_attribute": "admin2_label",
+                    "orig_dimension": "administrative-classification",
+                    "attributes": {
+                        "admin2_code": {
+                            "label": "admin2!",
+                            "datatype": "string",
+                            "orig_attribute": "admin2_code",
+                            "column": "admin2"
+                        },
+                        "admin2_label": {
+                            "label": "admin2*",
+                            "datatype": "string",
+                            "orig_attribute": "admin2_label",
+                            "column": "admin2_2"
+                        }
+                    },
+                    "key_attribute": "admin2_code"
+                },
+                "administrative_classification_4": {
+                    "label": "admin3 (code)",
+                    "label_attribute": "admin3_label",
+                    "orig_dimension": "administrative-classification",
+                    "attributes": {
+                        "admin3_code": {
+                            "label": "admin3 (code)",
+                            "datatype": "string",
+                            "orig_attribute": "admin3_code",
+                            "column": "admin3_code"
+                        },
+                        "admin3_label": {
+                            "label": "admin3 (label)",
+                            "datatype": "string",
+                            "orig_attribute": "admin3_label",
+                            "column": "admin3_label"
+                        }
+                    },
+                    "key_attribute": "admin3_code"
+                },
+                "economic_classification_econ2": {
+                    "label": "econ2 (code)",
+                    "label_attribute": "econ2_label",
+                    "orig_dimension": "economic-classification",
+                    "attributes": {
+                        "econ2_code": {
+                            "label": "econ2 (code)",
+                            "datatype": "string",
+                            "orig_attribute": "econ2_code",
+                            "column": "econ2_code"
+                        },
+                        "econ2_label": {
+                            "label": "econ2 (label)",
+                            "datatype": "string",
+                            "orig_attribute": "econ2_label",
+                            "column": "econ2_label"
+                        }
+                    },
+                    "key_attribute": "econ2_code"
+                },
+                "administrative_classification_5": {
+                    "label": "admin4 (code)",
+                    "label_attribute": "admin4_label",
+                    "orig_dimension": "administrative-classification",
+                    "attributes": {
+                        "admin4_label": {
+                            "label": "admin4 (label)",
+                            "datatype": "string",
+                            "orig_attribute": "admin4_label",
+                            "column": "admin4_label"
+                        },
+                        "admin4_code": {
+                            "label": "admin4 (code)",
+                            "datatype": "string",
+                            "orig_attribute": "admin4_code",
+                            "column": "admin4_code"
+                        }
+                    },
+                    "key_attribute": "admin4_code"
+                },
+                "administrative_classification_7": {
+                    "label": "admin6 (code)",
+                    "label_attribute": "admin6_label",
+                    "orig_dimension": "administrative-classification",
+                    "attributes": {
+                        "admin6_label": {
+                            "label": "admin6 (label)",
+                            "datatype": "string",
+                            "orig_attribute": "admin6_label",
+                            "column": "admin6_label"
+                        },
+                        "admin6_code": {
+                            "label": "admin6 (code)",
+                            "datatype": "string",
+                            "orig_attribute": "admin6_code",
+                            "column": "admin6_code"
+                        }
+                    },
+                    "key_attribute": "admin6_code"
+                },
+                "functional_classification_code": {
+                    "label": "func1 (code)",
+                    "label_attribute": "func1_label",
+                    "orig_dimension": "functional-classification",
+                    "attributes": {
+                        "func1_code": {
+                            "label": "func1 (code)",
+                            "datatype": "string",
+                            "orig_attribute": "func1_code",
+                            "column": "func1_code"
+                        },
+                        "func1_label": {
+                            "label": "func1 (label)",
+                            "datatype": "string",
+                            "orig_attribute": "func1_label",
+                            "column": "func1_label"
+                        }
+                    },
+                    "key_attribute": "func1_code"
+                },
+                "other_transfer": {
+                    "label": "transfer",
+                    "orig_dimension": "other",
+                    "attributes": {
+                        "transfer": {
+                            "label": "transfer",
+                            "datatype": "string",
+                            "orig_attribute": "transfer",
+                            "column": "transfer"
+                        }
+                    },
+                    "key_attribute": "transfer"
+                },
+                "administrative_classification_6": {
+                    "label": "admin5 (code)",
+                    "label_attribute": "admin5_label",
+                    "orig_dimension": "administrative-classification",
+                    "attributes": {
+                        "admin5_code": {
+                            "label": "admin5 (code)",
+                            "datatype": "string",
+                            "orig_attribute": "admin5_code",
+                            "column": "admin5_code"
+                        },
+                        "admin5_label": {
+                            "label": "admin5 (label)",
+                            "datatype": "string",
+                            "orig_attribute": "admin5_label",
+                            "column": "admin5_label"
+                        }
+                    },
+                    "key_attribute": "admin5_code"
+                },
+                "date_2": {
+                    "label": "year",
+                    "orig_dimension": "date",
+                    "attributes": {
+                        "year": {
+                            "label": "year",
+                            "datatype": "integer",
+                            "orig_attribute": "year",
+                            "column": "year"
+                        }
+                    },
+                    "key_attribute": "year"
+                },
+                "other_fin_source": {
+                    "label": "fin_source",
+                    "orig_dimension": "other",
+                    "attributes": {
+                        "fin_source": {
+                            "label": "fin_source",
+                            "datatype": "string",
+                            "orig_attribute": "fin_source",
+                            "column": "fin_source"
+                        }
+                    },
+                    "key_attribute": "fin_source"
+                },
+                "other_exp_type": {
+                    "label": "exp_type",
+                    "orig_dimension": "other",
+                    "attributes": {
+                        "exp_type": {
+                            "label": "exp_type",
+                            "datatype": "string",
+                            "orig_attribute": "exp_type",
+                            "column": "exp_type"
+                        }
+                    },
+                    "key_attribute": "exp_type"
+                }
+            },
+            "fact_table": "fdp__example_example_com__boost_moldova",
+            "hierarchies": {
+                "date": {
+                    "label": "Date",
+                    "levels": [
+                        "date_2"
+                    ]
+                },
+                "economic_classification": {
+                    "label": "Economic Classification",
+                    "levels": [
+                        "economic_classification_econ1",
+                        "economic_classification_econ2"
+                    ]
+                },
+                "functional_classification": {
+                    "label": "Functional Classification",
+                    "levels": [
+                        "functional_classification_code",
+                        "functional_classification_code_2"
+                    ]
+                },
+                "administrative_classification": {
+                    "label": "Administrative Classification",
+                    "levels": [
+                        "administrative_classification_2",
+                        "administrative_classification_3",
+                        "administrative_classification_4",
+                        "administrative_classification_5",
+                        "administrative_classification_6",
+                        "administrative_classification_7"
+                    ]
+                },
+                "other": {
+                    "label": "Other",
+                    "levels": [
+                        "other_fin_source",
+                        "other_exp_type",
+                        "other_transfer"
+                    ]
+                }
+            }
+        },
+        "id": "example@example.com:boost-moldova",
+        "loading_status": "done",
+        "loaded": true
+    }
+]

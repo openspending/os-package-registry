@@ -172,6 +172,33 @@ class PackageRegistry(object):
         except NotFoundError:
             return
 
+    def get_stats(self):
+        """
+        Get some stats on the packages in the registry
+        """
+        num_packages = 0
+        countries = set()
+        num_records = 0
+        #TODO: Find a way to do this with one ES query
+        try:
+            count = self.es.count(index=self.index_name, doc_type=self.DOC_TYPE, q='*')['count']
+            from_ = 0
+            while from_ < count:
+                ret = self.es.search(index=self.index_name, doc_type=self.DOC_TYPE, q='*',
+                                     size=self.BATCH_SIZE, from_=from_, _source=self.PACKAGE_FIELDS)
+                for hit in ret.get('hits',{}).get('hits', []):
+                    num_packages += 1
+                    package = hit['_source']['package']
+                    num_records += package.get('count_of_rows', 0)
+                    if 'countryCode' in package:
+                        countries.add(package['countryCode'])
+                from_ += self.BATCH_SIZE
+        except NotFoundError:
+            return {}
+        return dict(
+           num_packages=num_packages, num_countries=len(countries), num_records=num_records
+        )
+
     def has_model(self, name):
         """
         Check if a model exists in the registry

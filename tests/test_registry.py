@@ -34,17 +34,15 @@ class TestPackageRegistry(object):
         print("OK")
 
     def test_list_cubes_correct_values(self, package_registry):
-        """
-        Simple loading of one valid fdp into DB and testing correct CM values
-        """
         models = list(package_registry.list_models())
         assert(len(models) == 1, 'no dataset was loaded')
         assert(models[0] == MODEL_NAME, 'dataset with wrong name')
 
+    def test_stats_correct_values(self, package_registry):
+        stats = package_registry.get_stats()
+        assert stats == {'num_countries': 1, 'num_packages': 1, 'num_records': 1234567}
+
     def test_delete(self, package_registry):
-        """
-        Simple loading of one valid fdp into DB and testing correct CM values
-        """
         models = list(package_registry.list_models())
         assert(len(models) == 1, 'no dataset was loaded')
         assert(models[0] == MODEL_NAME, 'dataset with wrong name')
@@ -87,3 +85,4 @@ class TestPackageRegistry(object):
         assert(author == SAMPLE_DATA['author'])
         assert(status == SAMPLE_DATA['loading_status'])
         assert(loaded == SAMPLE_DATA['loaded'])
+
