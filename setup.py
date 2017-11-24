@@ -41,6 +41,6 @@ setup(
     packages=find_packages(exclude=['tests']),
 
     install_requires=[
-        'elasticsearch',
+        'elasticsearch>=1.0.0,<2.0.0',
     ],
 )
