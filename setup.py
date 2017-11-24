@@ -16,7 +16,7 @@ setup(
     ),
     long_description=long_description,
 
-    url='https://github.com/openspending/os-pacakge-registry',
+    url='https://github.com/openspending/os-package-registry',
 
     author='Open Knowledge International',
     author_email='info@okfn.org',
@@ -32,10 +32,8 @@ setup(
 
         'License :: OSI Approved :: MIT License',
 
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 3.6',
     ],
 
     keywords='fdp fiscal data package openspending elasticsearch',
@@ -43,5 +41,6 @@ setup(
     packages=find_packages(exclude=['tests']),
 
     install_requires=[
-        'elasticsearch',],
+        'elasticsearch>=1.0.0,<2.0.0',
+    ],
 )

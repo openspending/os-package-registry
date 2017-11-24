@@ -1,18 +1,23 @@
 language: python
-os:
-  - linux
-services:
-    - elasticsearch
+
 python:
-  - 2.7
-  - 3.3
-  - 3.4
-  - 3.5
-sudo: false
+  - 3.6
+
 env:
   - TOXENV="py${PYTHON_VERSION//./}"
+
+before_install:
+  - sudo rm -f /etc/boto.cfg
+  - curl -O https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.5.2.deb && sudo dpkg -i --force-confnew elasticsearch-1.5.2.deb && sudo service elasticsearch restart
+
 install:
   - pip install tox coveralls
+
 before_script:
   - sleep 30
+  - curl localhost:9200
+
 script: tox
+
+after_success:
+  - coveralls
