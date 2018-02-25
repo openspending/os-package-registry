@@ -83,6 +83,7 @@ class PackageRegistry(object):
                                     index=self.index_name,
                                     body=mapping)
 
+
     def save_model(self, name, datapackage_url, datapackage,
                    model, dataset_name, author, status, loaded):
         """
@@ -113,6 +114,45 @@ class PackageRegistry(object):
         self.es.index(index=self.index_name, doc_type=self.DOC_TYPE, body=document, id=name)
         # Make sure that the data is saved
         self.es.indices.flush(self.index_name)
+
+
+    def update_model(self, name, **kw):
+        """
+        Update a model in the registry (create if needed)
+        :param name: name for the model
+        :param datapackage_url: origin URL for the datapackage which is the source for this model
+        :param datapackage: datapackage object from which this model was derived
+        :param dataset_name: Title of the dataset
+        :param author: Author of the dataset
+        :param model: model to save
+        :param status: What's the status for loading
+        :param loaded: Was the package loaded successfully
+        """
+
+        document = {
+            'id': name,
+            'last_update': time.time()
+        }
+        for key, param in [
+                ('model', 'model'),
+                ('package', 'datapackage'),
+                ('origin_url', 'datapackage_url'),
+                ('dataset', 'dataset_name'),
+                ('author', 'author'),
+                ('loading_status', 'status'),
+                ('loaded', 'loaded')
+            ]:
+            if param in kw:
+                document[key] = kw[param]
+
+        body = dict(
+            doc=document,
+            doc_as_upsert=True
+        )
+        self.es.update(index=self.index_name, doc_type=self.DOC_TYPE, body=body, id=name)
+        # Make sure that the data is saved
+        self.es.indices.flush(self.index_name)
+
 
     def delete_model(self, name):
         """
