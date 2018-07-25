@@ -4,6 +4,10 @@ from collections import namedtuple
 
 from elasticsearch import Elasticsearch, NotFoundError
 
+from os_api_cache import get_os_cache
+
+api_cache = get_os_cache()
+
 
 class PackageRegistry(object):
 
@@ -159,6 +163,8 @@ class PackageRegistry(object):
                        body=body, id=name)
         # Make sure that the data is saved
         self.es.indices.flush(self.index_name)
+        # Clear the api cache
+        api_cache.clear(name)
 
     def delete_model(self, name):
         """

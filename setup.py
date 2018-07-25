@@ -42,5 +42,6 @@ setup(
 
     install_requires=[
         'elasticsearch>=1.0.0,<2.0.0',
+        'os-api-cache>=0.0.6'
     ],
 )
