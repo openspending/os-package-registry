@@ -163,8 +163,11 @@ class PackageRegistry(object):
                        body=body, id=name)
         # Make sure that the data is saved
         self.es.indices.flush(self.index_name)
-        # Clear the api cache
-        api_cache.clear(name)
+        # Clear the api cache (if api_cache isn't None)
+        try:
+            api_cache.clear(name)
+        except AttributeError:
+            pass
 
     def delete_model(self, name):
         """
