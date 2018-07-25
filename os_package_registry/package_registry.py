@@ -7,7 +7,8 @@ from elasticsearch import Elasticsearch, NotFoundError
 
 class PackageRegistry(object):
 
-    PACKAGE_FIELDS = ['id', 'model', 'package', 'origin_url', 'author', 'dataset', 'loading_status', 'loaded']
+    PACKAGE_FIELDS = ['id', 'model', 'package', 'origin_url', 'author',
+                      'dataset', 'loading_status', 'loaded']
     BATCH_SIZE = 100
     TABLE_NAME_PREFIX = "fdp__"
     Model = namedtuple('Model', PACKAGE_FIELDS)
@@ -66,9 +67,12 @@ class PackageRegistry(object):
         }
     }
 
-    def __init__(self, es_connection_string=None, es_instance=None, index_name=INDEX_NAME):
+    def __init__(self, es_connection_string=None,
+                 es_instance=None, index_name=INDEX_NAME):
         if es_instance is None:
-            logging.info('Attempting to connect to ES: {0}'.format(es_connection_string))
+            logging.info(
+                'Attempting to connect to ES: {0}'.format(
+                    es_connection_string))
             self.es = Elasticsearch(hosts=[es_connection_string])
             logging.info('Successful connection to ES')
             logging.info('Index name: %s', index_name)
@@ -83,14 +87,15 @@ class PackageRegistry(object):
                                     index=self.index_name,
                                     body=mapping)
 
-
     def save_model(self, name, datapackage_url, datapackage,
                    model, dataset_name, author, status, loaded):
         """
         Save a model in the registry
         :param name: name for the model
-        :param datapackage_url: origin URL for the datapackage which is the source for this model
-        :param datapackage: datapackage object from which this model was derived
+        :param datapackage_url: origin URL for the datapackage which is the
+            source for this model
+        :param datapackage: datapackage object from which this model was
+            derived
         :param dataset_name: Title of the dataset
         :param author: Author of the dataset
         :param model: model to save
@@ -111,17 +116,19 @@ class PackageRegistry(object):
             'loaded': loaded,
             'last_update': time.time()
         }
-        self.es.index(index=self.index_name, doc_type=self.DOC_TYPE, body=document, id=name)
+        self.es.index(index=self.index_name, doc_type=self.DOC_TYPE,
+                      body=document, id=name)
         # Make sure that the data is saved
         self.es.indices.flush(self.index_name)
-
 
     def update_model(self, name, **kw):
         """
         Update a model in the registry (create if needed)
         :param name: name for the model
-        :param datapackage_url: origin URL for the datapackage which is the source for this model
-        :param datapackage: datapackage object from which this model was derived
+        :param datapackage_url: origin URL for the datapackage which is the
+            source for this model
+        :param datapackage: datapackage object from which this model was
+            derived
         :param dataset_name: Title of the dataset
         :param author: Author of the dataset
         :param model: model to save
@@ -140,8 +147,7 @@ class PackageRegistry(object):
                 ('dataset', 'dataset_name'),
                 ('author', 'author'),
                 ('loading_status', 'status'),
-                ('loaded', 'loaded')
-            ]:
+                ('loaded', 'loaded')]:
             if param in kw:
                 document[key] = kw[param]
 
@@ -149,10 +155,10 @@ class PackageRegistry(object):
             doc=document,
             doc_as_upsert=True
         )
-        self.es.update(index=self.index_name, doc_type=self.DOC_TYPE, body=body, id=name)
+        self.es.update(index=self.index_name, doc_type=self.DOC_TYPE,
+                       body=body, id=name)
         # Make sure that the data is saved
         self.es.indices.flush(self.index_name)
-
 
     def delete_model(self, name):
         """
@@ -160,7 +166,8 @@ class PackageRegistry(object):
         :param name: name for the model
         """
         try:
-            ret = self.es.delete(index=self.index_name, doc_type=self.DOC_TYPE, id=name)
+            ret = self.es.delete(index=self.index_name,
+                                 doc_type=self.DOC_TYPE, id=name)
         except NotFoundError:
             return False
         # Make sure that the data is saved
@@ -172,14 +179,16 @@ class PackageRegistry(object):
         Get all data for a package in the registry
         :returns tuple of:
             name: name for the model
-            datapackage_url: origin URL for the datapackage which is the source for this model
+            datapackage_url: origin URL for the datapackage which is the source
+            for this model
             datapackage: datapackage object from which this model was derived
             dataset_name: Title of the dataset
             author: Author of the dataset
             model: model to save
         """
         try:
-            ret = self.es.get(index=self.index_name, doc_type=self.DOC_TYPE, id=name, _source=self.PACKAGE_FIELDS)
+            ret = self.es.get(index=self.index_name, doc_type=self.DOC_TYPE,
+                              id=name, _source=self.PACKAGE_FIELDS)
             if ret['found']:
                 source = ret['_source']
                 return (name,
@@ -200,12 +209,15 @@ class PackageRegistry(object):
         :return: A generator yielding strings (one per model)
         """
         try:
-            count = self.es.count(index=self.index_name, doc_type=self.DOC_TYPE, q='*')['count']
+            count = self.es.count(index=self.index_name,
+                                  doc_type=self.DOC_TYPE, q='*')['count']
             from_ = 0
             while from_ < count:
-                ret = self.es.search(index=self.index_name, doc_type=self.DOC_TYPE, q='*',
-                                     size=self.BATCH_SIZE, from_=from_, _source=self.PACKAGE_FIELDS)
-                for hit in ret.get('hits',{}).get('hits', []):
+                ret = self.es.search(index=self.index_name,
+                                     doc_type=self.DOC_TYPE, q='*',
+                                     size=self.BATCH_SIZE, from_=from_,
+                                     _source=self.PACKAGE_FIELDS)
+                for hit in ret.get('hits', {}).get('hits', []):
                     yield hit['_source']['id']
                 from_ += self.BATCH_SIZE
         except NotFoundError:
@@ -217,7 +229,8 @@ class PackageRegistry(object):
         """
         try:
             query = {
-                'size': 0,  # We only care about the aggregations, so don't return the hits
+                # We only care about the aggregations, so don't return the hits
+                'size': 0,
                 'aggs': {
                     'num_packages': {
                         'value_count': {
@@ -236,7 +249,8 @@ class PackageRegistry(object):
                     },
                 },
             }
-            aggregations = self.es.search(index=self.index_name, body=query)['aggregations']
+            aggregations = self.es.search(index=self.index_name,
+                                          body=query)['aggregations']
 
             return {
                 key: int(value['value'])
@@ -251,7 +265,8 @@ class PackageRegistry(object):
         :param name: model name to test
         :return: True if yes
         """
-        return self.es.exists(index=self.index_name, doc_type=self.DOC_TYPE, id=name)
+        return self.es.exists(index=self.index_name,
+                              doc_type=self.DOC_TYPE, id=name)
 
     def get_model(self, name):
         """
@@ -261,7 +276,8 @@ class PackageRegistry(object):
         :return: Python object representing the model
         """
         try:
-            ret = self.es.get(index=self.index_name, doc_type=self.DOC_TYPE, id=name, _source=self.PACKAGE_FIELDS)
+            ret = self.es.get(index=self.index_name, doc_type=self.DOC_TYPE,
+                              id=name, _source=self.PACKAGE_FIELDS)
             if ret['found']:
                 return ret['_source']['model']
             raise KeyError(name)
@@ -276,7 +292,8 @@ class PackageRegistry(object):
         :return: Python object representing the package
         """
         try:
-            rec = self.es.get(index=self.index_name, doc_type=self.DOC_TYPE, id=name, _source=self.PACKAGE_FIELDS)
+            rec = self.es.get(index=self.index_name, doc_type=self.DOC_TYPE,
+                              id=name, _source=self.PACKAGE_FIELDS)
             if rec['found']:
                 ret = rec['_source']['package']
                 ret['__origin_url'] = rec['_source']['origin_url']
