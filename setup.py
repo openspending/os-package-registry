@@ -10,12 +10,12 @@ with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='os-package-registry',
-    version='0.0.13',
+    version='0.0.14',
     description=(
         'Manage a registry of packages on an ElasticSearch instance'
     ),
     long_description=long_description,
-
+    long_description_content_type="text/markdown",
     url='https://github.com/openspending/os-package-registry',
 
     author='Open Knowledge International',
