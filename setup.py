@@ -10,7 +10,7 @@ with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='os-package-registry',
-    version='0.0.15',
+    version='0.0.16',
     description=(
         'Manage a registry of packages on an ElasticSearch instance'
     ),
@@ -42,6 +42,6 @@ setup(
 
     install_requires=[
         'elasticsearch>=1.0.0,<2.0.0',
-        'os-api-cache>=0.0.6'
+        'os-api-cache>=0.0.7'
     ],
 )
