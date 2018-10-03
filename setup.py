@@ -41,7 +41,7 @@ setup(
     packages=find_packages(exclude=['tests']),
 
     install_requires=[
-        'elasticsearch>=1.0.0,<2.0.0',
+        'elasticsearch>=5.0.0,<6.0.0',
         'os-api-cache>=0.0.7'
     ],
 )
