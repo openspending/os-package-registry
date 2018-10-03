@@ -27,7 +27,6 @@ class PackageRegistry(object):
         },
         'model': {
             "type": "object",
-            "index": "no",
             "enabled": False
         },
         'package': {
@@ -56,7 +55,6 @@ class PackageRegistry(object):
                 },
                 'model': {
                     "type": "object",
-                    "index": "no",
                     "enabled": False
                 },
             }
