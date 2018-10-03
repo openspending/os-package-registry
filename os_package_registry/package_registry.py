@@ -44,6 +44,14 @@ class PackageRegistry(object):
                     "type": "string",
                     "index": "not_analyzed",
                 },
+                'countryCode': {
+                    'type': 'text',
+                    'fields': {
+                        'keyword': {
+                           'type': 'keyword'
+                        }
+                    }
+                },
                 'resources': {
                     "type": "object",
                     "properties": {
@@ -246,12 +254,12 @@ class PackageRegistry(object):
                     },
                     'num_records': {
                         'sum': {
-                            'field': 'count_of_rows',
+                            'field': 'package.count_of_rows',
                         },
                     },
                     'num_countries': {
                         'cardinality': {
-                            'field': 'countryCode',
+                            'field': 'package.countryCode.keyword',
                         },
                     },
                 },
