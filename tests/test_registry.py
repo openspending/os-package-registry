@@ -93,7 +93,7 @@ class TestPackageRegistry(object):
         dp = {'name': 'moses'}
         model = {'my-model': 'is-great'}
         dataset_name = 'ds-name'
-        author = 'authors-name' 
+        author = 'authors-name'
         status = 'FUNKY'
         loaded = False
 
@@ -123,4 +123,16 @@ class TestPackageRegistry(object):
         status = 'AWESOME'
         loaded = True
         package_registry.update_model(name, status=status, loaded=loaded)
+        check()
+
+        # Update existing property of model
+        model = {'my-model': 'replace model'}
+        dp = {'name': 'replace name'}
+        package_registry.update_model(name, model=model, datapackage=dp)
+        check()
+
+        # Replace model
+        model = {'completely': 'replace model'}
+        dp = {'completely': 'replace dp'}
+        package_registry.update_model(name, model=model, datapackage=dp)
         check()
