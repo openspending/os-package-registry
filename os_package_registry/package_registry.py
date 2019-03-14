@@ -146,6 +146,21 @@ class PackageRegistry(object):
         :param loaded: Was the package loaded successfully
         """
 
+        # If `model` or `datapackage` in kw args, completely remove respective
+        # field from the ES item, so it can be replaced below (rather than
+        # merged).
+        if 'model' in kw:
+            body_remove_model = \
+                '{"script" : "ctx._source.remove(\u0027model\u0027)"}'
+            self.es.update(index=self.index_name, doc_type=self.DOC_TYPE,
+                           body=body_remove_model, id=name)
+
+        if 'datapackage' in kw:
+            body_remove_datapackage = \
+                '{"script" : "ctx._source.remove(\u0027package\u0027)"}'
+            self.es.update(index=self.index_name, doc_type=self.DOC_TYPE,
+                           body=body_remove_datapackage, id=name)
+
         document = {
             'id': name,
             'last_update': time.time()
