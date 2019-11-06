@@ -277,7 +277,7 @@ class PackageRegistry(object):
                     },
                     'num_countries': {
                         'cardinality': {
-                            'field': 'package.countryCode.keyword',
+                            'field': 'package.countryCode',
                         },
                     },
                 },
